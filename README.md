@@ -1,7 +1,10 @@
 # Database testing with Vagrant
 
 This repository provides a Vagrantfile and configuration files for the virtual machines
-used to test the documentation available in [GitHub](https://github.com/ClickHouse/clickhouse-docs/blob/71ad1697d196d8f983f0b404c77a75dcf0afaff1/docs/en/deployment-guides/replicated.md#testing) or the [ClickHouse documentation](https://clickhouse.com/docs/en/architecture/replication#testing).
+used to test the documentation available in
+[GitHub](https://github.com/ClickHouse/clickhouse-docs/blob/71ad1697d196d8f983f0b404c77a75dcf0afaff1/docs/en/deployment-guides/replicated.md#testing)
+or the
+[ClickHouse documentation](https://clickhouse.com/docs/en/architecture/replication#testing).
 
 This procedure is for RPM based systems, other package formats should be similar.
 
@@ -62,7 +65,10 @@ vagrant ssh
 
 ## Tests and raw history
 
-Tests are available in [GitHub](https://github.com/ClickHouse/clickhouse-docs/blob/71ad1697d196d8f983f0b404c77a75dcf0afaff1/docs/en/deployment-guides/replicated.md#testing) or the [ClickHouse documentation](https://clickhouse.com/docs/en/architecture/replication#testing)
+Tests are available in
+[GitHub](https://github.com/ClickHouse/clickhouse-docs/blob/71ad1697d196d8f983f0b404c77a75dcf0afaff1/docs/en/deployment-guides/replicated.md#testing)
+or the
+[ClickHouse documentation](https://clickhouse.com/docs/en/architecture/replication#testing)
 
 ```bash
 vagrant up clickhouse-keeper-01
@@ -75,10 +81,9 @@ vagrant ssh clickhouse-keeper-01 -c "sudo systemctl start clickhouse-keeper"
 vagrant ssh clickhouse-keeper-02 -c "sudo systemctl start clickhouse-keeper"
 vagrant ssh clickhouse-keeper-03 -c "sudo systemctl start clickhouse-keeper"
 vagrant ssh clickhouse-keeper-03 -c "nc localhost 9181"
-vagrant ssh clickhouse-keeper-03 
+vagrant ssh clickhouse-keeper-03
 vagrant ssh clickhouse-01 -c "sudo systemctl start clickhouse-server"
 vagrant ssh clickhouse-02 -c "sudo systemctl start clickhouse-server"
 vagrant ssh clickhouse-02 -c "clickhouse-client"
 vagrant ssh clickhouse-01 -c "clickhouse-client"
 ```
-
