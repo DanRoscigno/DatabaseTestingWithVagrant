@@ -63,27 +63,48 @@ section and download the RPMs or debs.
 vagrant ssh
 ```
 
-## Tests and raw history
+## Tests
+
+### Start and test ClickHouse Keeper
+
+This test starts the Keeper virtual machines and then the Keeper process on each machine.
+The `echo mntr | nc` commands use ZooKeeper four-letter words to retrieve the status of
+the Keeper servers. Look for one Keeper server to have `zk_server_state	leader` and the 
+other two to have `follower` status.
+
+```shell
+vagrant up clickhouse-keeper-01
+vagrant up clickhouse-keeper-02
+vagrant up clickhouse-keeper-03
+
+vagrant ssh clickhouse-keeper-01 -c "sudo systemctl start clickhouse-keeper"
+vagrant ssh clickhouse-keeper-02 -c "sudo systemctl start clickhouse-keeper"
+vagrant ssh clickhouse-keeper-03 -c "sudo systemctl start clickhouse-keeper"
+
+vagrant ssh clickhouse-keeper-01 -c "echo mntr | nc localhost 9181"
+vagrant ssh clickhouse-keeper-02 -c "echo mntr | nc localhost 9181"
+vagrant ssh clickhouse-keeper-03 -c "echo mntr | nc localhost 9181"
+```
+
+### Start and test ClickHouse server
+
+```bash
+vagrant up clickhouse-01
+vagrant up clickhouse-02
+vagrant ssh clickhouse-01 -c "sudo systemctl start clickhouse-server"
+vagrant ssh clickhouse-02 -c "sudo systemctl start clickhouse-server"
+```
+
+### Functional tests
 
 Tests are available in
 [GitHub](https://github.com/ClickHouse/clickhouse-docs/blob/71ad1697d196d8f983f0b404c77a75dcf0afaff1/docs/en/deployment-guides/replicated.md#testing)
 or the
 [ClickHouse documentation](https://clickhouse.com/docs/en/architecture/replication#testing)
 
-```bash
-vagrant up clickhouse-keeper-01
-vagrant up clickhouse-keeper-02
-vagrant up clickhouse-keeper-03
-vagrant up clickhouse-01
-vagrant up clickhouse-02
-vagrant ssh clickhouse-keeper-01 "sudo systemctl start clickhouse-keeper"
-vagrant ssh clickhouse-keeper-01 -c "sudo systemctl start clickhouse-keeper"
-vagrant ssh clickhouse-keeper-02 -c "sudo systemctl start clickhouse-keeper"
-vagrant ssh clickhouse-keeper-03 -c "sudo systemctl start clickhouse-keeper"
-vagrant ssh clickhouse-keeper-03 -c "nc localhost 9181"
-vagrant ssh clickhouse-keeper-03
-vagrant ssh clickhouse-01 -c "sudo systemctl start clickhouse-server"
-vagrant ssh clickhouse-02 -c "sudo systemctl start clickhouse-server"
-vagrant ssh clickhouse-02 -c "clickhouse-client"
-vagrant ssh clickhouse-01 -c "clickhouse-client"
+Open a shell on each virtual machine `clickhouse-01` and `clickhouse-02` and run the functional tests.
+
+```shell
+vagrant ssh clickhouse-01 -c clickhouse-client
+vagrant ssh clickhouse-02 -c clickhouse-client
 ```
